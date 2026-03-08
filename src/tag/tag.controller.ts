@@ -1,14 +1,14 @@
 import {
-  Controller,
-  Get,
-  Post,
-  Delete,
   Body,
+  Controller,
+  Delete,
+  Get,
   Param,
   ParseIntPipe,
+  Post,
 } from '@nestjs/common';
-import { TagService } from './tag.service';
 import { CreateTagDto } from './dto/create-tag.dto';
+import { TagService } from './tag.service';
 
 @Controller('tags')
 export class TagController {

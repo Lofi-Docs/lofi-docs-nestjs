@@ -1,11 +1,11 @@
 import {
-  Controller,
-  Get,
-  Post,
-  Delete,
   Body,
+  Controller,
+  Delete,
+  Get,
   Param,
   ParseIntPipe,
+  Post,
 } from '@nestjs/common';
 import { CommentService } from './comment.service';
 import { CreateCommentDto } from './dto/create-comment.dto';
@@ -29,10 +29,7 @@ export class CommentController {
   }
 
   @Delete(':id')
-  remove(
-    @Param('id', ParseIntPipe) id: number,
-    @Body() dto: DeleteCommentDto,
-  ) {
+  remove(@Param('id', ParseIntPipe) id: number, @Body() dto: DeleteCommentDto) {
     return this.commentService.remove(id, dto.password);
   }
 }

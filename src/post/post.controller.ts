@@ -1,27 +1,24 @@
 import {
+  Body,
   Controller,
+  Delete,
   Get,
   Post as HttpPost,
-  Put,
-  Delete,
-  Body,
   Param,
-  Query,
   ParseIntPipe,
+  Put,
+  Query,
 } from '@nestjs/common';
-import { PostService } from './post.service';
 import { CreatePostDto } from './dto/create-post.dto';
 import { UpdatePostDto } from './dto/update-post.dto';
+import { PostService } from './post.service';
 
 @Controller('posts')
 export class PostController {
   constructor(private readonly postService: PostService) {}
 
   @Get()
-  findAll(
-    @Query('page') page?: string,
-    @Query('limit') limit?: string,
-  ) {
+  findAll(@Query('page') page?: string, @Query('limit') limit?: string) {
     return this.postService.findAll(
       page ? parseInt(page, 10) : 1,
       limit ? parseInt(limit, 10) : 10,
@@ -39,10 +36,7 @@ export class PostController {
   }
 
   @Put(':id')
-  update(
-    @Param('id', ParseIntPipe) id: number,
-    @Body() dto: UpdatePostDto,
-  ) {
+  update(@Param('id', ParseIntPipe) id: number, @Body() dto: UpdatePostDto) {
     return this.postService.update(id, dto);
   }
 

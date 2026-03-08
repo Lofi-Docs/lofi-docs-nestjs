@@ -1,11 +1,11 @@
 import {
+  ForbiddenException,
   Injectable,
   NotFoundException,
-  ForbiddenException,
 } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
 import * as bcrypt from 'bcrypt';
+import { Repository } from 'typeorm';
 import { Comment } from '../entities/comment.entity';
 import { CreateCommentDto } from './dto/create-comment.dto';
 
@@ -38,6 +38,7 @@ export class CommentService {
       password: hashedPassword,
     });
     const saved = await this.commentRepo.save(comment);
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const { password: _, ...result } = saved;
     return result;
   }

@@ -1,11 +1,11 @@
 import {
-  Injectable,
   ConflictException,
+  Injectable,
   UnauthorizedException,
 } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
 import * as bcrypt from 'bcrypt';
+import { Repository } from 'typeorm';
 import { Admin } from '../entities/admin.entity';
 import { CreateAdminDto } from './dto/create-admin.dto';
 import { LoginAdminDto } from './dto/login-admin.dto';
@@ -27,6 +27,7 @@ export class AdminService {
       password: hashedPassword,
     });
     const saved = await this.adminRepo.save(admin);
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const { password: _, ...result } = saved;
     return result;
   }
@@ -38,6 +39,7 @@ export class AdminService {
     const isMatch = await bcrypt.compare(dto.password, admin.password);
     if (!isMatch) throw new UnauthorizedException('Invalid credentials');
 
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const { password: _, ...result } = admin;
     return result;
   }
