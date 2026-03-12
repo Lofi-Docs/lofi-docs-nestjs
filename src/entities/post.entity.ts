@@ -32,7 +32,7 @@ export class Post {
   @Column({ nullable: true })
   thumbnail_url: string;
 
-  @Column({ default: false })
+  @Column({ default: true })
   is_published: boolean;
 
   @Column({ default: 0 })
