@@ -1,6 +1,10 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import {
+  ConflictException,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { In, Repository } from 'typeorm';
+import { In, QueryFailedError, Repository } from 'typeorm';
 import { Post } from '../entities/post.entity';
 import { Tag } from '../entities/tag.entity';
 import { CreatePostDto } from './dto/create-post.dto';
@@ -59,11 +63,22 @@ export class PostService {
   }
 
   async create(dto: CreatePostDto) {
-    const post = this.postRepo.create(dto);
-    if (dto.tagIds?.length) {
-      post.tags = await this.tagRepo.findBy({ id: In(dto.tagIds) });
+    try {
+      const post = this.postRepo.create(dto);
+      if (dto.tagIds?.length) {
+        post.tags = await this.tagRepo.findBy({ id: In(dto.tagIds) });
+      }
+      return await this.postRepo.save(post);
+    } catch (error) {
+      if (
+        error instanceof QueryFailedError &&
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+        (error as any).driverError?.code === '23505'
+      ) {
+        throw new ConflictException('Slug already exists');
+      }
+      throw error;
     }
-    return this.postRepo.save(post);
   }
 
   async update(id: number, dto: UpdatePostDto) {
