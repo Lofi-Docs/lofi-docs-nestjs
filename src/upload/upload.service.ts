@@ -1,12 +1,18 @@
 import { BadRequestException, Injectable } from '@nestjs/common';
-import { writeFile, mkdir } from 'fs/promises';
-import { extname, join } from 'path';
 import { randomUUID } from 'crypto';
+import { mkdir, writeFile } from 'fs/promises';
+import { extname, join } from 'path';
 
 @Injectable()
 export class UploadService {
   private readonly uploadDir = join(process.cwd(), 'uploads');
-  private readonly allowedExtensions = ['.jpg', '.jpeg', '.png', '.gif', '.webp'];
+  private readonly allowedExtensions = [
+    '.jpg',
+    '.jpeg',
+    '.png',
+    '.gif',
+    '.webp',
+  ];
   private readonly maxSize = 5 * 1024 * 1024; // 5MB
 
   async saveFile(file: Express.Multer.File) {

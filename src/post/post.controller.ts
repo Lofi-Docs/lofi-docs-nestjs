@@ -8,7 +8,9 @@ import {
   ParseIntPipe,
   Put,
   Query,
+  UseGuards,
 } from '@nestjs/common';
+import { AuthGuard } from 'src/auth/auth.guard';
 import { CreatePostDto } from './dto/create-post.dto';
 import { UpdatePostDto } from './dto/update-post.dto';
 import { PostService } from './post.service';
@@ -30,6 +32,7 @@ export class PostController {
     return this.postService.findBySlug(slug);
   }
 
+  @UseGuards(AuthGuard)
   @HttpPost()
   create(@Body() dto: CreatePostDto) {
     return this.postService.create(dto);

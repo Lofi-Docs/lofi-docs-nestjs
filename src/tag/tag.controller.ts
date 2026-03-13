@@ -6,7 +6,9 @@ import {
   Param,
   ParseIntPipe,
   Post,
+  UseGuards,
 } from '@nestjs/common';
+import { AuthGuard } from 'src/auth/auth.guard';
 import { CreateTagDto } from './dto/create-tag.dto';
 import { TagService } from './tag.service';
 
@@ -19,6 +21,7 @@ export class TagController {
     return this.tagService.findAll();
   }
 
+  @UseGuards(AuthGuard)
   @Post()
   create(@Body() dto: CreateTagDto) {
     return this.tagService.create(dto);
