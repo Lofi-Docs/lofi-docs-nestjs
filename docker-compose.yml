@@ -31,5 +31,8 @@ services:
     depends_on:
       - db
 
+    volumes:
+      - ./uploads:/app/uploads
+
 volumes:
   pgdata:
