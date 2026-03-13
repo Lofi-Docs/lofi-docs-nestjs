@@ -1,13 +1,5 @@
-import {
-  Body,
-  Controller,
-  Get,
-  Post,
-  Req,
-  Res,
-  UseGuards,
-} from '@nestjs/common';
-import type { Request, Response } from 'express';
+import { Body, Controller, Get, Post, Req, UseGuards } from '@nestjs/common';
+import type { Request } from 'express';
 
 import { AuthGuard } from 'src/auth/auth.guard';
 import { AuthService } from 'src/auth/auth.service';
@@ -27,21 +19,11 @@ export class AdminController {
   ) {}
 
   @Post('login')
-  async login(
-    @Body() dto: LoginAdminDto,
-    @Res({ passthrough: true }) res: Response,
-  ) {
+  async login(@Body() dto: LoginAdminDto) {
     const admin = await this.adminService.validateAdmin(dto);
     const token = this.authService.generateToken(admin.id, admin.email);
 
-    res.cookie('access_token', token, {
-      httpOnly: true,
-      secure: process.env.NODE_ENV === 'production',
-      sameSite: 'strict',
-      maxAge: 7 * 24 * 60 * 60 * 1000,
-    });
-
-    return { admin };
+    return { admin, token };
   }
 
   @UseGuards(AuthGuard)
