@@ -23,7 +23,7 @@ export class PostService {
     const where = includeUnpublished ? {} : { is_published: true };
     const [posts, total] = await this.postRepo.findAndCount({
       where,
-      relations: ['tags'],
+      relations: ['tags', 'likes', 'comments'],
       order: { created_at: 'DESC' },
       skip: (page - 1) * limit,
       take: limit,
