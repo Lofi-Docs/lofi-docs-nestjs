@@ -7,6 +7,7 @@ import { CommentModule } from 'src/comment/comment.module';
 import { PostLikeModule } from 'src/post-like/post-like.module';
 import { PostModule } from 'src/post/post.module';
 import { TagModule } from 'src/tag/tag.module';
+import { UploadModule } from 'src/upload/upload.module';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 
@@ -32,6 +33,7 @@ import { AppService } from './app.service';
     TagModule,
     CommentModule,
     PostLikeModule,
+    UploadModule,
     AdminModule,
   ],
   controllers: [AppController],
